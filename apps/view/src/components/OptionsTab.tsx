@@ -18,7 +18,7 @@ export default function OptionsTab() {
     // 1. Create the component
     const DataTabs: React.FC<DataTabComponentProps> = ({ data }) => {
         return (
-            <Tabs colorScheme="teal" minW="250px" w="50%">
+            <Tabs colorScheme="teal" minW="250px" w="100%" borderRight="1px" borderColor="blackAlpha.50">
                 <TabList>
                     {data.map((tab, index) => (
                         <Tab key={[index, tab.label].join('__')}>{tab.label}</Tab>
@@ -26,7 +26,7 @@ export default function OptionsTab() {
                 </TabList>
                 <TabPanels>
                     {data.map((tab, index) => (
-                        <TabPanel p={4} key={[index, tab.label].join('__')}>
+                        <TabPanel p={0} m={0} key={[index, tab.label].join('__')}>
                             {tab.component}
                         </TabPanel>
                     ))}
@@ -43,7 +43,7 @@ export default function OptionsTab() {
         },
         {
             label: "Payload",
-            component: <Text>Second Default of the  Text</Text>
+            component: <Editor />
         },
     ]
 

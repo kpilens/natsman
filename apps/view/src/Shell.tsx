@@ -46,7 +46,7 @@ export default function Page(): JSX.Element {
                 >
                     <Flex justify="flex-start">
                         <Box maxW="120px" w="100%">
-                            <Select bg="blackAlpha.50">
+                            <Select bg="blackAlpha.100">
                                 <option value="option1">SEND</option>
                                 <option value="option2">EMIT</option>
                             </Select>
@@ -67,9 +67,14 @@ export default function Page(): JSX.Element {
                     ml="240px"
                 >
 
-                    <Flex>
-                        <OptionTab />
-                        <Editor />
+                    <Flex minH="calc(100vh - 120px)">
+                        <Box w="50%">
+                            <OptionTab />
+                        </Box>
+
+                        <Box w="50%">
+                            <Editor />
+                        </Box>
 
                     </Flex>
 
