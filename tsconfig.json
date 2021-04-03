@@ -1,0 +1,25 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "es2018",
+        "jsx": "preserve",
+        "module": "esnext",
+        "typeRoots": ["node_modules/@types"],
+        "lib": ["es2017", "dom"],
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@server": ["api/src/*"]
+        }
+    },
+    "exclude": ["node_modules", "dist", "tmp"]
+}

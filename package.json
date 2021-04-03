@@ -1,0 +1,24 @@
+{
+  "name": "natsman",
+  "private": true,
+  "scripts": {
+    "fmt": "prettier --write '**/*.{js,ts}'",
+    "install": "lerna run install",
+    "build": "lerna run build",
+    "static": "tsc --pretty --noEmit",
+    "start": "cd ./apps/api && node dist/entry.js"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "arrowParens": "always"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "jest": "26.5.2",
+    "lerna": "^3.22.1",
+    "prettier": "2.1.2",
+    "prettier-eslint": "^11.0.0",
+    "typescript": "4.0.3"
+  }
+}
