@@ -1,14 +1,2 @@
-# ALXSERI
-The ALX SERI (pun intended)
-
-
-# Folder Structure
-
-
-# Technologies Used
-
-
-# Setup Instructions
-
-
-# License
+# NATS Man
+Like postman but for nats
