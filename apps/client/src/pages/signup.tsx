@@ -9,7 +9,6 @@ import { FormPageHeader } from '../components/Header'
 import { InputField, PasswordField } from '../components/Fields';
 import { generateRandomName } from '../utils/helpers'
 import { LoginAPI, SignupAPI } from '../utils/api'
-import * as Auth from '../utils/auth'
 
 
 export default function Page(): JSX.Element {
@@ -29,8 +28,8 @@ export default function Page(): JSX.Element {
 
             if (result) {
                 await LoginAPI.save(data)
-                    .then((res) => {
-                        Auth.loginUser('/', res.data.profile)
+                    .then((res: any) => {
+                        console.info(res)
                     })
             }
 

@@ -2,8 +2,8 @@ import { Flex, useColorMode, SimpleGrid, FlexProps } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 
 
-const bgColor = { light: 'gray.50', dark: 'gray.900' }
-const color = { light: 'black', dark: 'white' }
+const bgColor = { light: '#f7f7f7', dark: 'blue.900' }
+const color = { light: 'gray.800', dark: 'white' }
 
 
 export const Container = (props: FlexProps) => {
@@ -26,7 +26,6 @@ export const Wrapper: React.FC<FlexProps> = (props): JSX.Element => {
 
   return (
     <Flex
-      alignItems="center"
       direction="column"
       width="100%"
       minH="100vh"

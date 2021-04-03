@@ -4,8 +4,8 @@ import { createBreakpoints } from '@chakra-ui/theme-tools'
 
 const fonts = {
   mono: `'Menlo', Monaco, Fira Code, Ubuntu Mono, monospace`,
-  heading: `"Barlow", Cantarell, Oxygen, Ubuntu, sans-serif`,
-  body: `"Dosis", Segoe UI, Oxygen, Ubuntu, Roboto, Fira Sans, Helvetica Neue, sans-serif`,
+  heading: `"Menlo", Monaco, Fira Code, Ubuntu Mono, monospace`,
+  body: `"Graphik Web", Oxygen, Ubuntu, Inter, Roboto, Fira Sans, Helvetica Neue, sans-serif`,
 };
 const fontSizes = {
   xs: '0.65rem',
@@ -27,10 +27,24 @@ const breakpoints = createBreakpoints({
   xl: '80em',
 })
 
+const radii = {
+  none: "0",
+  sm: "0",
+  base: "0",
+  md: "0",
+  lg: "0",
+  xl: "0.75rem",
+  "2xl": "1rem",
+  "3xl": "1.5rem",
+  full: "9999px",
+}
+
 const theme = extendTheme({
   colors: {
-    black: '#16161D',
+    black: '#1b1b1f',
+    text: "#333333"
   },
+  radii,
   fonts,
   fontSizes,
   breakpoints,

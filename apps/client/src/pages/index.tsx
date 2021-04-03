@@ -1,144 +1,72 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Head from 'next/head'
-import { NextPageContext } from 'next'
-import { Text, Box, Flex, Stack } from '@chakra-ui/react'
+// import { NextPageContext } from 'next'
+import { useColorMode, Box, Flex, Input, Select, Button } from '@chakra-ui/react'
 
-import MangaCard from '../components/MangaCard'
-import JokeCard from '../components/JokeCard';
-import { TMangaCollection, TJokesCollection } from '../utils/helpers'
-import { JokeAPI, MangaAPI } from '../utils/api'
-import * as Auth from '../utils/auth'
 
-import { Wrapper, CardWrapper, JokeWrapper } from '../components/Container'
-import { Main, Loader } from '../components/Main'
+
+import { Wrapper } from '../components/Container'
+import Editor from '../components/Editor'
+
 import { Header } from '../components/Header'
-
-import { styleConstants } from '../theme';
+import theme from '../theme';
 
 
 
 
 export default function Page(): JSX.Element {
-  const [mangaCollection, setMangaCollection] = React.useState<TMangaCollection>([])
-  const [jokesCollection, setJokesCollection] = React.useState<TJokesCollection>([])
+  const { colorMode } = useColorMode()
 
-  const fetchResources = useCallback(async () => {
-
-    try {
-      const jokes = await JokeAPI.get('/ten')
-      const manga = await MangaAPI.list()
-
-      // console.log(manga, jokes)
-      /* Update state object */
-      manga && await setMangaCollection(manga.data.data)
-      jokes && await setJokesCollection(jokes.data)
-
-
-    } catch (error) {
-      alert(error)
-    }
-  }, [],
-  )
-
-
-
-  React.useEffect(() => {
-    fetchResources()
-  }, []);
-
-
-  if (!jokesCollection && !mangaCollection) {
-    return (
-      <Loader entry={"Loading ..."} />
-    )
-  }
+  const bgColor = { light: '#f7f7f7', dark: 'blue.900' }
+  const color = { light: 'gray.800', dark: 'white' }
 
   return (
     <>
       <Head>
-        <title>ALX Seri | Software Engineer Resident in 🤐</title>
+        <title>Natsman | Nestjs Message Pattern Client</title>
       </Head>
       <Header isDefault={true} />
       <Wrapper>
+        <Box
+          position="fixed"
+          left="0"
+          minW="40px"
+          borderRight="1px solid"
+          borderColor={theme.colors.blackAlpha[100]}
+          height="100%">
 
+        </Box>
 
-        {/* =================>  The Jokes Section */}
-        <Main>
-          <Box my={4} mt={8} pt={6}>
-            <Text
-              bgGradient="linear(to-l, #7928CA,#FF0080)"
-              bgClip="text"
-              fontSize={["3xl", "5xl"]}
-              fontWeight="bold"
-              textAlign={["center", "left"]}
-              my={[3, 6]}
-              py={[2, 4]}
-            >
-              Hear a Joke
-            </Text>
-
-            {/* ------------ Render the Jokes Collection ---------------- */}
-            <JokeWrapper columns={[1, 2, 3, 4]} spacing={10} pb={8}>
-              {jokesCollection.length === 0
-                ? <Loader entry={"personalized jokes"} />
-                : jokesCollection.map((value, idx) => {
-                  return (
-                    <Box key={[idx, value.id].join("__")}>
-                      <JokeCard jokes={value} />
-                    </Box>
-                  )
-                })
-              }
-            </JokeWrapper>
-            {/* ------------ Render the Jokes Collection ---------------- */}
-          </Box>
-        </Main>
-        {/* =================>  The Jokes Section */}
-
-
-
-        {/* =========> Section to render Anime Collection */}
-        <Flex direction="column" width="100%" borderTop={styleConstants.altBorder} background="white">
-          <Main pb={1}>
-            <Box>
-              <Text
-                bgGradient="linear(to-l, #be3759, #108645)"
-                bgClip="text"
-                fontSize={["3xl", "5xl"]}
-                fontWeight="bold"
-                my={[1, 3]}
-                py={[1, 3]}
-              >
-                Explore Mangas
-            </Text>
+        <Box position="relative" zIndex="10" pl={12} mt="48px"
+          pt={6}
+          pb={4}
+          bg={bgColor[colorMode]}
+          color={color[colorMode]}
+          borderBottom={theme.borders["1px"]}
+          borderColor={theme.colors.gray[100]}
+        >
+          <Flex justify="flex-start">
+            <Box maxW="120px" w="100%">
+              <Select>
+                <option value="option1">SEND</option>
+                <option value="option2">EMIT</option>
+              </Select>
             </Box>
-          </Main>
-        </Flex>
 
-        <CardWrapper>
-          <Main pb={12}>
-            {/* -------------- Render the Manga Anime Collections here ---------------- */}
-            <Stack isInline >
-              {/* <SimpleGrid columns={[1, 2, 3, 4]} spacing={4}> */}
-              {mangaCollection.length === 0
-                ? <Loader entry={"Anime Collection"} />
-                : mangaCollection.map((value, idx) => {
-                  const { attributes } = value
-                  return (
-                    <Box key={[idx, value.id].join("__")}>
-                      <MangaCard detail={attributes} />
+            <Box maxW="30em" w="100%">
+              <Input borderLeft="none" defaultValue="http://localhost:4222" placeholder="Enter PubSub Server URL" />
+            </Box>
+            <Button ml={2} colorScheme="teal" variant="outline">
+              Request
+            </Button>
 
-                    </Box>
-                  )
-                })}
-            </Stack>
-            {/* </SimpleGrid> */}
-            {/* -------------- Render the Manga Anime Collections here ---------------- */}
+          </Flex>
+
+        </Box>
 
 
-          </Main>
-        </CardWrapper>
-        {/* =========> Section to render Anime Collection */}
+        {process.browser && <Editor />}
+
 
       </Wrapper>
     </>
@@ -146,15 +74,15 @@ export default function Page(): JSX.Element {
 }
 
 
-Page.getInitialProps = async (ctx: NextPageContext) => {
+// Page.getInitialProps = async (ctx: NextPageContext) => {
 
-  if (Auth.redirectIfNotAuthenticated(ctx, '/login')) {
-    return { props: {} };
-  }
+//   if (Auth.redirectIfNotAuthenticated(ctx, '/login')) {
+//     return { props: {} };
+//   }
 
-  return {
-    props: {
+//   return {
+//     props: {
 
-    }
-  }
-}
+//     }
+//   }
+// }
