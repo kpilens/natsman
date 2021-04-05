@@ -6,7 +6,8 @@
     "install": "lerna run install",
     "build": "lerna run build",
     "static": "tsc --pretty --noEmit",
-    "start": "node apps/proxy/dist/src/main"
+    "start": "node apps/proxy/dist/src/main",
+    "prepare": "git subtree push --prefix apps/proxy origin deploy-proxy"
   },
   "prettier": {
     "singleQuote": true,
