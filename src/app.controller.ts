@@ -26,14 +26,10 @@ export class AppController {
   }
 
 
-  @Post('/emit')
-  emitRequest(): string {
-    return this.appService.getHello();
-  }
 
   @Post('/send')
   async sendRequest(@Body() data: RequestMessage): Promise<any> {
-    this.logger.info(JSON.stringify(data));
+    this.logger.debug('in request send');
 
     try {
       const result$ = this.messageProxy.sendMessage<string, MicroserviceMessage>({ ...data.pattern }, data.message)
@@ -41,7 +37,19 @@ export class AppController {
     } catch (error) {
       console.log(error)
       throw new ConflictException(error)
-      // throw new UnprocessableEntityException(error, "a man has calmed down")
+    }
+  }
+
+  @Post('/emit')
+  async emitRequest(@Body() data: RequestMessage): Promise<any> {
+    this.logger.debug('in request emit');
+
+    try {
+      const result$ = this.messageProxy.emitMessage<string, MicroserviceMessage>({ ...data.pattern }, data.message)
+      return await lastValueFrom(result$)
+    } catch (error) {
+      console.log(error)
+      throw new ConflictException(error)
     }
   }
 
