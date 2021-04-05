@@ -6,7 +6,6 @@
 import axios from 'axios';
 import tmpl from 'string-template';
 import qs from 'qs';
-import * as Auth from './auth';
 import nProgress from 'nprogress';
 
 class ResourceFactory extends Object {
@@ -18,11 +17,8 @@ class ResourceFactory extends Object {
     }
 
     static createResource(endpoint, config = {}) {
-        // Generator function to create a resource class
         class Resource {
-            // implement the http using axios
             static buildURL(pattern = '', data = {}) {
-                // build the url out of the pattern and the data structure sent
                 let stub = tmpl(pattern, data).replace(/\/+$/, '');
                 return [this.endpoint, stub].join('/').replace(/\/+$/, '');
             }
@@ -33,20 +29,11 @@ class ResourceFactory extends Object {
                 method = 'GET',
                 ctx = {}
             ) {
-                // build and execute a request based on url pattern and method sent
                 let url = this.buildURL(pattern, data);
                 let config = { method, url };
-                let key = method.toLowerCase() == 'get' ? 'params' : 'data';
+                let key = method.toLowerCase() === 'get' ? 'params' : 'data';
                 config[key] = data;
-                return Auth.getAuthHeaders(ctx).then(headers => {
-                    const updatedHeaders = Object.assign(
-                        {},
-                        headers,
-                        this.config.headers
-                    );
-                    config['headers'] = updatedHeaders;
-                    return this.axios.request(config);
-                });
+                return this.axios.request(config);
             }
 
             // Now implement all default methods
@@ -54,25 +41,9 @@ class ResourceFactory extends Object {
                 return this.executeRequest(data, '', 'GET', ctx);
             }
 
-            static get(data, ctx = {}) {
-                return this.executeRequest(data, '{id}', 'GET', ctx);
-            }
-
-            static save(data, pattern = '{id}', ctx = {}) {
-                // If there's an ID, switch from a create to an update method
+            static post(data, pattern = '{id}', ctx = {}) {
+                console.log(data)
                 return this.executeRequest(data, pattern, 'POST', ctx);
-            }
-
-            static remove(data, pattern = '{id}', ctx = {}) {
-                return this.executeRequest(data, pattern, 'DELETE', ctx);
-            }
-
-            static doAction(data, pattern = '{id}/{action}', ctx = {}) {
-                return this.executeRequest(data, pattern, 'POST', ctx);
-            }
-
-            static listResource(data, pattern = '{id}/{path}', ctx = {}) {
-                return this.executeRequest(data, pattern, 'GET', ctx);
             }
         }
 
@@ -117,5 +88,14 @@ ResourceFactory.defaults = {
         });
     },
 };
+const baseURL = process.env.REACT_APP_PROXY_URL;
+const defaultConfig = {
+    baseURL: baseURL,
+    headers: {
+        'X-Request-With': 'XMLHttpRequest'
+    }
+};
 
-export default ResourceFactory;
+ResourceFactory.updateDefaults(defaultConfig)
+export class Send extends ResourceFactory.createResource("/send") { }
+export class Emit extends ResourceFactory.createResource("/emit") { }

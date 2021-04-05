@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Flex, Select, theme, useColorMode, Input, Button } from '@chakra-ui/react'
 import { ResponseContainer, PayloadContainer, ConfigurationContainer } from '../container'
+import { Emit, Send } from '../utils/http'
 
 export default function RequestOptions() {
     const { colorMode } = useColorMode()
@@ -13,11 +14,31 @@ export default function RequestOptions() {
     let config = ConfigurationContainer.useContainer()
     let payload = PayloadContainer.useContainer()
 
-    const handleClick = () => {
-        responseState.update(
-            `$$>>ddd xxx foreign state ${config.data} and ${payload.data}`
-        )
+    const handleClick = async () => {
+        //     responseState.update(
+        //         `$$>>ddd xxx foreign state ${config.data} and ${payload.data}`
+        //     )
 
+        console.log("i got hit")
+        const body = {
+            "pattern": {
+                "cmd": "CREATE_DATASOURCE",
+                "role": "owner"
+            },
+            "message": {
+                "data": {
+                    "name": "andrew",
+                    "workspace": "remote"
+                },
+                "metadata": {
+                    "user_id": "5435121d1212"
+                }
+
+            }
+        }
+        const res = (await Send.post(body)).data
+        console.log(res)
+        responseState.update(JSON.stringify(res, null, '\t'))
 
     }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, theme, Heading, Flex, Tooltip, Divider, Badge, Text, AvatarBadge, Stack, useColorMode } from '@chakra-ui/react';
+import { Box, theme, Heading, Flex, Divider, Text, Stack, useColorMode } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { styleConstants } from '../theme';
 

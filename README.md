@@ -47,4 +47,3 @@ Sample request payload
 ```
 
 Note that `@MessagePattern` uses a strict pattern matching, so a handler can only executes a pattern that matches. in the examples above, even though the `cmd` are the same, both requests can not be the same, as the pattern must match the `cmd & role` payload within the pattern object.
-
