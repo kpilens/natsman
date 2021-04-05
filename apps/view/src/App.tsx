@@ -7,20 +7,20 @@ import { ColorModeSwitcher } from "./ColorModeSwitcher"
 import Shell from './Shell'
 import theme from './theme'
 import GlobalSetup from './components/Global'
-import { ResponseEditorContainer, PayloadEditorContainer, ConfigurationEditorContainer } from './container'
+import { ResponseContainer, PayloadContainer, ConfigurationContainer } from './container'
 
 export const App = () => (
   <ChakraProvider theme={theme}>
     <GlobalSetup />
     <Box textAlign="center" fontSize="xl">
       <ColorModeSwitcher justifySelf="flex-end" />
-      <ConfigurationEditorContainer.Provider>
-        <ResponseEditorContainer.Provider>
-          <PayloadEditorContainer.Provider>
+      <ConfigurationContainer.Provider>
+        <ResponseContainer.Provider>
+          <PayloadContainer.Provider>
             <Shell />
-          </PayloadEditorContainer.Provider>
-        </ResponseEditorContainer.Provider>
-      </ConfigurationEditorContainer.Provider>
+          </PayloadContainer.Provider>
+        </ResponseContainer.Provider>
+      </ConfigurationContainer.Provider>
     </Box>
   </ChakraProvider>
 )

@@ -1,10 +1,10 @@
 import React from 'react';
 import Editor from './Editor'
-import { ConfigurationEditorContainer } from '../container'
+import { ConfigurationContainer } from '../container'
 
 
 export default function ConfigurationEditor() {
-    let configuration = ConfigurationEditorContainer.useContainer()
+    let configuration = ConfigurationContainer.useContainer()
 
     const handleChange = (value: Record<any, string> | any) => {
         configuration.update(value)

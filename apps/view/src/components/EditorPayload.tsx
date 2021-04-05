@@ -1,10 +1,10 @@
 import React from 'react';
 import Editor from './Editor'
-import { PayloadEditorContainer } from '../container'
+import { PayloadContainer } from '../container'
 
 
 export default function PayloadEditor() {
-    let payload = PayloadEditorContainer.useContainer()
+    let payload = PayloadContainer.useContainer()
 
     const handleChange = (value: Record<any, string> | any) => {
         payload.update(value)

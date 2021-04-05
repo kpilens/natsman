@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Flex, Select, theme, useColorMode, Input, Button } from '@chakra-ui/react'
-import { ResponseEditorContainer } from '../container'
+import { ResponseContainer, PayloadContainer, ConfigurationContainer } from '../container'
 
 export default function RequestOptions() {
     const { colorMode } = useColorMode()
@@ -9,10 +9,15 @@ export default function RequestOptions() {
     const color = { light: 'gray.800', dark: 'white' }
 
     /* Manage Requests building and api response */
-    let responseState = ResponseEditorContainer.useContainer()
+    let responseState = ResponseContainer.useContainer()
+    let config = ConfigurationContainer.useContainer()
+    let payload = PayloadContainer.useContainer()
 
     const handleClick = () => {
-        responseState.update("$$>>ddd foreign state")
+        responseState.update(
+            `$$>>ddd xxx foreign state ${config.data} and ${payload.data}`
+        )
+
 
     }
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import Editor from './Editor'
-import { ResponseEditorContainer } from '../container'
+import { ResponseContainer } from '../container'
 
 
 export default function ConfigurationEditor() {
-    let apiResponse = ResponseEditorContainer.useContainer()
+    let apiResponse = ResponseContainer.useContainer()
 
     React.useEffect(() => {
         apiResponse.data ? apiResponse.update(apiResponse.data) : apiResponse.update("Waiting...")

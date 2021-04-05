@@ -7,6 +7,6 @@ function useEditorState(initialState = "") {
     return { data, update }
 }
 
-export let ConfigurationEditorContainer = createContainer(useEditorState)
-export let PayloadEditorContainer = createContainer(useEditorState)
-export let ResponseEditorContainer = createContainer(useEditorState)
+export let ConfigurationContainer = createContainer(useEditorState)
+export let PayloadContainer = createContainer(useEditorState)
+export let ResponseContainer = createContainer(useEditorState)
