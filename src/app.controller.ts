@@ -25,20 +25,18 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post()
-  sendRequest(): string {
-    return this.appService.getHello();
-  }
 
+  @Post('/emit')
   emitRequest(): string {
     return this.appService.getHello();
   }
 
-  async createDatasource(@Body() data: RequestMessage): Promise<any> {
+  @Post('/send')
+  async sendRequest(@Body() data: RequestMessage): Promise<any> {
     this.logger.info(JSON.stringify(data));
 
     try {
-      const result$ = this.messageProxy.sendMessage<string, MicroserviceMessage>({ ...data.pattern }, data.payload)
+      const result$ = this.messageProxy.sendMessage<string, MicroserviceMessage>({ ...data.pattern }, data.message)
       return await lastValueFrom(result$)
     } catch (error) {
       console.log(error)

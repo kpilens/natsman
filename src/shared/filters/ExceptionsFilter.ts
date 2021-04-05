@@ -83,7 +83,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
         if (exception instanceof HttpException) {
             status = exception.getStatus()
-            message = exception.name
+            message = exception.message
         }
 
         response.status(status).json({

@@ -10,5 +10,5 @@ interface IPattern {
 
 export interface RequestMessage<T = IPattern, K = MicroserviceMessage> {
     pattern: T,
-    payload?: K
+    message?: K
 }
