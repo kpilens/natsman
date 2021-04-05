@@ -19,7 +19,9 @@ async function bootstrap() {
   const app = await NestFactory.create(
     AppModule.register(),
     {
-      cors: false,
+      cors: {
+        origin: "*"
+      },
       logger
     }
   );
