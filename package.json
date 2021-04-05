@@ -6,7 +6,7 @@
     "install": "lerna run install",
     "build": "lerna run build",
     "static": "tsc --pretty --noEmit",
-    "start": "cd ./apps/api && node dist/entry.js"
+    "start": "node apps/proxy/dist/src/main"
   },
   "prettier": {
     "singleQuote": true,
