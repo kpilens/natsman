@@ -1,16 +1,18 @@
 import React from 'react';
-import { Tabs, TabList, Text, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
-import Editor from './AceEditor'
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import PayloadEditor from './EditorPayload'
+import ConfigurationEditor from './EditorConfigOptions'
 
 
 interface DataTabOptionProps {
     label: string,
-    component: JSX.Element
+    component: React.ReactElement
 }
 
 interface DataTabComponentProps {
     data: DataTabOptionProps[]
 }
+
 
 
 export default function OptionsTab() {
@@ -39,11 +41,11 @@ export default function OptionsTab() {
     const tabData = [
         {
             label: "Configuration",
-            component: <Editor />
+            component: <ConfigurationEditor />
         },
         {
             label: "Payload",
-            component: <Editor />
+            component: <PayloadEditor />
         },
     ]
 
