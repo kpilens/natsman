@@ -6,11 +6,6 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-dracula";
 
 export default function AcEditor(props: IAceEditorProps): JSX.Element {
-
-    function onChange(newValue: any) {
-        console.log("change", newValue);
-    }
-
     // Render editor
     return (
         <AceEditor
@@ -20,7 +15,6 @@ export default function AcEditor(props: IAceEditorProps): JSX.Element {
                 width: "100%"
             }}
             theme="github"
-            onChange={onChange}
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}
             {...props}

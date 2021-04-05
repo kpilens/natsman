@@ -23,7 +23,7 @@ export default function Page(): JSX.Element {
                     minW="240px"
                     borderRight="1px solid"
                     borderColor={theme.colors.blackAlpha[100]}
-                    minHeight="100vh"
+                    minHeight="calc(100vh - 88px)"
                 >
                     <Text textAlign="left" p={2} fontSize="small" mt={6}>Request Logs</Text>
 
