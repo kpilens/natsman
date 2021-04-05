@@ -1,7 +1,6 @@
 import React from 'react';
 import Editor from './Editor'
 import { ResponseContainer } from '../container'
-import ReactJson from 'react-json-view'
 
 
 
@@ -15,7 +14,6 @@ export default function ConfigurationEditor() {
 
     return (
         <React.Fragment>
-            {/* <ReactJson src={apiResponse.data as any} enableClipboard={false} /> */}
             <Editor
                 value={apiResponse.data}
                 theme="dracula"

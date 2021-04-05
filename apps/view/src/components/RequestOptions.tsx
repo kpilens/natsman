@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Flex, Select, theme, useColorMode, Input, Button } from '@chakra-ui/react'
 import { ResponseContainer, PayloadContainer, ConfigurationContainer } from '../container'
-import { Emit, Send } from '../utils/http'
+import { RequestProxy } from '../utils/http'
 
 export default function RequestOptions() {
+    const [requestType, setRequestType] = useState<string>('send')
     const { colorMode } = useColorMode()
 
     const bgColor = { light: '#ffffff', dark: 'blue.900' }
@@ -15,30 +16,20 @@ export default function RequestOptions() {
     let payload = PayloadContainer.useContainer()
 
     const handleClick = async () => {
-        //     responseState.update(
-        //         `$$>>ddd xxx foreign state ${config.data} and ${payload.data}`
-        //     )
+        console.log(config, "configuration object")
 
-        console.log("i got hit")
-        const body = {
-            "pattern": {
-                "cmd": "CREATE_DATASOURCE",
-                "role": "owner"
-            },
-            "message": {
-                "data": {
-                    "name": "andrew",
-                    "workspace": "remote"
-                },
-                "metadata": {
-                    "user_id": "5435121d1212"
-                }
+        try {
+            const body = JSON.parse(payload.data)
+            console.log(body)
+            const res = (await RequestProxy.post(body, requestType)).data
+            console.log(res)
+            responseState.update(JSON.stringify(res, null, '\t'))
 
-            }
+        } catch (error) {
+            console.log(error)
+            alert(`Error: ${JSON.stringify(error)}`)
+            responseState.update(JSON.stringify(error, null, '\t'))
         }
-        const res = (await Send.post(body)).data
-        console.log(res)
-        responseState.update(JSON.stringify(res, null, '\t'))
 
     }
 
@@ -56,14 +47,14 @@ export default function RequestOptions() {
         >
             <Flex justify="flex-start">
                 <Box maxW="120px" w="100%">
-                    <Select bg="blackAlpha.100">
+                    <Select onChange={(v) => setRequestType(v.target.value)} bg="blackAlpha.100">
                         <option value="send">SEND</option>
                         <option value="emit">EMIT</option>
                     </Select>
                 </Box>
 
                 <Box maxW="30em" w="100%">
-                    <Input bg="blackAlpha.50" borderLeft="none" defaultValue="http://localhost:4222" placeholder="Enter PubSub Server URL" />
+                    <Input disabled bg="blackAlpha.50" borderLeft="none" defaultValue="http://localhost:4222" placeholder="Enter PubSub Server URL" />
                 </Box>
                 <Button onClick={handleClick} ml={2} colorScheme="teal" variant="outline">
                     Request

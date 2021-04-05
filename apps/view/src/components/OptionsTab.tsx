@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import { Tabs, Box, Flex, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
 import PayloadEditor from './EditorPayload'
 import ConfigurationEditor from './EditorConfigOptions'
 
@@ -13,6 +13,16 @@ interface DataTabComponentProps {
     data: DataTabOptionProps[]
 }
 
+const ConfigurationTab = () => {
+    return (
+        <Box>
+            <Flex p={2} pt={4} minH="100px" w="100%" borderBottom="1px" borderColor="blackAlpha.100">
+                <small>We use this section to configure the settings option for our event bus</small>
+            </Flex>
+            <ConfigurationEditor />
+        </Box>
+    )
+}
 
 
 export default function OptionsTab() {
@@ -40,12 +50,12 @@ export default function OptionsTab() {
     // 2. Create an array of data
     const tabData = [
         {
-            label: "Configuration",
-            component: <ConfigurationEditor />
-        },
-        {
             label: "Payload",
             component: <PayloadEditor />
+        },
+        {
+            label: "Configuration",
+            component: <ConfigurationTab />
         },
     ]
 

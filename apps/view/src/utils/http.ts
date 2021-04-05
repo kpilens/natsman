@@ -1,3 +1,4 @@
+import { AxiosInstance } from 'axios';
 /*
  * Api.js
  * This module is responsible for handling all the implementations of our http Request. This module uses Axios to configure the data handling
@@ -8,19 +9,24 @@ import tmpl from 'string-template';
 import qs from 'qs';
 import nProgress from 'nprogress';
 
-class ResourceFactory extends Object {
-    // Factory class that generates resource classes. This is required to produce API endpoints. Each class will have the basic endpoints it needs
+class HttpAdapter extends Object {
+    static defaults: any;
 
-    static updateDefaults(config) {
-        // update the defaults by taking whatever is there and adding the new stuff to it.
-        ResourceFactory.defaults = { ...this.defaults, ...config };
+    static updateDefaults(config: { baseURL: string | undefined; headers: { 'X-Request-With': string; }; }) {
+        const baseURL = process.env.REACT_APP_PROXY_URL;
+        HttpAdapter.defaults = { ...this.defaults, ...config, baseURL };
     }
 
-    static createResource(endpoint, config = {}) {
+    static createResource(endpoint: string, config = {}) {
         class Resource {
+            static endpoint: string;
+            static axios: AxiosInstance;
+            static config: any;
             static buildURL(pattern = '', data = {}) {
                 let stub = tmpl(pattern, data).replace(/\/+$/, '');
-                return [this.endpoint, stub].join('/').replace(/\/+$/, '');
+                const route = this.endpoint.replace(/\/+$/, '');
+                console.log(baseURL, "versus", this.endpoint, "and", route)
+                return [`${baseURL}${route}`, stub].join('/').replace(/\/+$/, '');
             }
 
             static executeRequest(
@@ -30,7 +36,8 @@ class ResourceFactory extends Object {
                 ctx = {}
             ) {
                 let url = this.buildURL(pattern, data);
-                let config = { method, url };
+                console.log(url)
+                let config: any = { method, url };
                 let key = method.toLowerCase() === 'get' ? 'params' : 'data';
                 config[key] = data;
                 return this.axios.request(config);
@@ -41,34 +48,41 @@ class ResourceFactory extends Object {
                 return this.executeRequest(data, '', 'GET', ctx);
             }
 
-            static post(data, pattern = '{id}', ctx = {}) {
-                console.log(data)
+            static post(data: {} | undefined, pattern = '{id}', ctx = {}) {
+                return this.executeRequest(data, pattern, 'POST', ctx);
+            }
+            static emit(data: {} | undefined, pattern = 'emit', ctx = {}) {
+                return this.executeRequest(data, pattern, 'POST', ctx);
+            }
+
+            static send(data: {} | undefined, pattern = 'send', ctx = {}) {
                 return this.executeRequest(data, pattern, 'POST', ctx);
             }
         }
 
         Resource.endpoint = endpoint;
-        Resource.config = { ...ResourceFactory.defaults, ...config };
+        Resource.config = { ...HttpAdapter.defaults, ...config };
         Resource.axios = axios.create(Resource.config);
 
+        // console.log(Resource.config)
         // Integrating interceptors for request and response
         Resource.axios.interceptors.request.use(
-            function (config) {
+            function (config: any) {
                 nProgress.start();
                 return config;
             },
-            function (error) {
+            function (error: any) {
                 nProgress.done();
                 return Promise.reject(error);
             }
         );
 
         Resource.axios.interceptors.response.use(
-            function (response) {
+            function (response: any) {
                 nProgress.done();
                 return response;
             },
-            function (error) {
+            function (error: any) {
                 nProgress.done();
                 return Promise.reject(error);
             }
@@ -78,8 +92,8 @@ class ResourceFactory extends Object {
     }
 }
 
-ResourceFactory.defaults = {
-    paramsSerializer: function (params) {
+HttpAdapter.defaults = {
+    paramsSerializer: function (params: any) {
         return qs.stringify(params, {
             arrayFormat: 'brackets',
             skipNulls: true,
@@ -90,12 +104,11 @@ ResourceFactory.defaults = {
 };
 const baseURL = process.env.REACT_APP_PROXY_URL;
 const defaultConfig = {
-    baseURL: baseURL,
+    baseURL,
     headers: {
         'X-Request-With': 'XMLHttpRequest'
     }
 };
 
-ResourceFactory.updateDefaults(defaultConfig)
-export class Send extends ResourceFactory.createResource("/send") { }
-export class Emit extends ResourceFactory.createResource("/emit") { }
+HttpAdapter.updateDefaults(defaultConfig)
+export class RequestProxy extends HttpAdapter.createResource("/") { }

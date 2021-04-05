@@ -15,6 +15,10 @@ export default function ConfigurationEditor() {
         <React.Fragment>
             <Editor
                 onChange={handleChange}
+                style={{
+                    minHeight: "calc(100vh - 200px)",
+                    width: "100%"
+                }}
             />
         </React.Fragment>
     )

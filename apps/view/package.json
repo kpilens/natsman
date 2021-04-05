@@ -50,5 +50,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/nprogress": "^0.2.0",
+    "@types/qs": "^6.9.6",
+    "@types/string-template": "^1.0.2"
   }
 }
